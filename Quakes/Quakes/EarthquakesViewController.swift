@@ -10,12 +10,22 @@ import UIKit
 import MapKit
 
 class EarthquakesViewController: UIViewController {
-		
+
+    let quakeFetcher = QuakeFetcher()
+
 	// NOTE: You need to import MapKit to link to MKMapView
 	@IBOutlet var mapView: MKMapView!
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		
+
+        quakeFetcher.fetchQuakes { (quakes, error) in
+            guard let quakes = quakes else { return }
+
+            if let error = error {
+                print("Error fetching quakes: \(error)")
+            }
+            print("Quakes: \(quakes.count)")
+        }
 	}
 }
